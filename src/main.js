@@ -7,6 +7,9 @@ import iView from 'iview';
 import 'iview/dist/styles/iview.css';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import VueQrcode from '@xkeshi/vue-qrcode';
+
+Vue.component(VueQrcode.name, VueQrcode);
 
 Vue.use(VueAxios, axios)
 
