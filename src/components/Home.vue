@@ -70,6 +70,7 @@ export default {
       busList:[],
       fullname:'',
       search:'',
+      loading1: false,
       lineSite: [],
       lineInfos: [],
       city:'',
@@ -92,7 +93,9 @@ export default {
             this.currentLocation.lnc =rectangle.substring(0,11);
             this.currentLocation.lat =rectangle.substring(12,23);
             this.city = cityinfo.substring(0,cityinfo.length-1);
+            //this.city = "济南"
             this.fullname = result.province+result.city;
+           //this.fullname = "山东省济南市"
             console.log(this.fullname);
             this.getlocals();
           }
@@ -140,7 +143,7 @@ export default {
         var linesearch = new AMap.LineSearch({
           pageIndex: 1,
           city: this.city,
-          pageSize: 10,
+          pageSize: 20,
           extensions: 'all' // 返回全部信息
         })
         linesearch.search(linename, function (status, result) {
@@ -175,7 +178,6 @@ export default {
     },
     searchBus:function(query){
       console.log(query);
-      this.search = query
       var autoOptions = {
         datatype:"busline",
         city:this.city
@@ -188,7 +190,7 @@ export default {
       },
      change_status:function(){
        var ss = this.search;
-        console.log(ss);//.indexOf('(')
+        console.log(ss);
         this.$router.push({path: '/LineDetails',query:{ lineName:ss.name,city:this.city,status:1,fullname:this.fullname}});
      },
   },

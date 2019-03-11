@@ -162,7 +162,7 @@ export default {
     },
     findTrans: function () {
       // eventBus.$emit('inc', [this.start, this.end])
-      Router.push({path: '/transferList', query: {from: this.start.from, fromAddressLat: this.start.fromAddressLat, fromAddressLng: this.start.fromAddressLng, to: this.end.to, toAddressLat: this.end.toAddressLat, toAddressLng: this.end.toAddressLng,fullname:this.fullname}})
+      Router.push({path: '/TransferList', query: {from: this.start.from, fromAddressLat: this.start.fromAddressLat, fromAddressLng: this.start.fromAddressLng, to: this.end.to, toAddressLat: this.end.toAddressLat, toAddressLng: this.end.toAddressLng,fullname:this.fullname}})
     },
     change: function () {
       console.log(this.start, this.end)

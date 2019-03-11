@@ -4,18 +4,25 @@
             <div class="tag">
                 <a id="time" style="margin-left:0.4rem;" v-bind:class="{active: defaults}" v-on:click='change(0)'>较快捷</a><a id="walk" style="margin-left:0.8rem;" v-on:click='change(3)'>少步行</a><a id="transfle" style="margin-left:0.8rem;" v-on:click='change(2)'>少换乘</a>
             </div>
-            <div id="time_list" v-for='item in plan'>
-                <div class="line_info">
-                    <div class="site">
-                        <span class="dot_s"></span>
-                        <span class="from">{{item.trans.join('-')}}</span>
-                    </div>
-                    <div class="tit">
-                        <span class="time_s">约 {{item.time}} 分钟</span>
-                        <span class="price">票价:{{item.cost}}元</span>
-                    </div>
-                </div>
-            </div>
+            <ul>
+              <li id="time_list" v-for="(item, index) in plan"  :key="index" @click="showSegment(index)">
+                  <div class="line_info">
+                      <div class="site">
+                          <span class="dot_s"></span>
+                          <span class="from">{{item.trans.join('-')}}</span>
+                      </div>
+                      <div class="tit">
+                          <span class="time_s">约 {{item.time}} 分钟</span>
+                          <span class="price">票价:{{item.cost}}元</span>
+                      </div>
+                  </div>
+                  <Drawer title="规划详情" placement="left" :closable="false" v-model="value1">
+                      <Steps :current="0" direction="vertical">
+                          <Step  v-for="(option, index) in showSegments"  :key="index" :content="option.instruction"></Step>
+                      </Steps>
+                  </Drawer>
+              </li>
+            </ul>
         </div>
         <div class="sm_noneTic" v-bind:style="{display:none_data}" id="none_data">
             <img src="../assets/line/icon-none.png" alt="无数据" />
@@ -36,6 +43,7 @@
 
 <script>
 import AMap from 'AMap'
+import { platform } from 'os';
 export default {
   name: 'transferList',
   data () {
@@ -46,7 +54,9 @@ export default {
       oneorTow: 'from',
       autocomplete: '',
       keywords: '',
-      plan: []
+      plan: [],
+      showSegments:[],
+      value1: false
     }
   },
   mounted: function () {
@@ -70,6 +80,12 @@ export default {
     homeShow: function () {
       this.home = 'block'
       this.about = 'none'
+    },
+    showSegment: function (index){
+      console.log(index)
+      this.showSegments  = this.plan[index].segments;
+      this.value1 = true
+      console.log(showSegments)
     },
     change: function (status) {
       this.defaults = false
@@ -109,8 +125,10 @@ export default {
             this.plan.push({
               cost: cost,
               time: time,
-              trans: trans
+              trans: trans,
+              segments:plans[i].segments
             })
+            console.log(this.plan);
           }
         } else {
         }
